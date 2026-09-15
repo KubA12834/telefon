@@ -1,0 +1,1903 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<title>PhoneStore — магазин смартфонов</title>
+
+
+
+<style>
+
+* {
+
+    box-sizing: border-box;
+
+    margin: 0;
+
+    padding: 0;
+
+}
+
+
+
+body {
+
+    font-family: Arial, sans-serif;
+
+    background: #f5f5f7;
+
+    color: #111;
+
+}
+
+
+
+header {
+
+    height: 70px;
+
+    background: #111;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 7%;
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 100;
+
+}
+
+
+
+.logo {
+
+    font-size: 24px;
+
+    font-weight: bold;
+
+}
+
+
+
+nav {
+
+    display: flex;
+
+    gap: 25px;
+
+}
+
+
+
+nav button {
+
+    background: none;
+
+    color: white;
+
+    border: none;
+
+    cursor: pointer;
+
+    font-size: 15px;
+
+}
+
+
+
+.cart-button {
+
+    background: white;
+
+    color: #111;
+
+    border: none;
+
+    padding: 11px 18px;
+
+    border-radius: 25px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+}
+
+
+
+.hero {
+
+    min-height: 360px;
+
+    background:
+
+        linear-gradient(90deg, rgba(0,0,0,.75), rgba(0,0,0,.15)),
+
+        url("https://images.unsplash.com/photo-1592286927505-2fd8f8f8b9f0?auto=format&fit=crop&w=1600&q=80")
+
+        center/cover;
+
+
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 60px 8%;
+
+    color: white;
+
+}
+
+
+
+.hero-content {
+
+    max-width: 600px;
+
+}
+
+
+
+.hero h1 {
+
+    font-size: 55px;
+
+    margin-bottom: 20px;
+
+}
+
+
+
+.hero p {
+
+    font-size: 20px;
+
+    margin-bottom: 25px;
+
+    color: #ddd;
+
+}
+
+
+
+.primary-button {
+
+    background: white;
+
+    color: #111;
+
+    border: none;
+
+    padding: 14px 25px;
+
+    border-radius: 12px;
+
+    font-size: 16px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+}
+
+
+
+.controls {
+
+    display: flex;
+
+    gap: 15px;
+
+    justify-content: center;
+
+    padding: 35px 20px;
+
+    flex-wrap: wrap;
+
+}
+
+
+
+.controls input,
+
+.controls select {
+
+    padding: 14px 18px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 12px;
+
+    background: white;
+
+    font-size: 16px;
+
+}
+
+
+
+.products {
+
+    width: 86%;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+
+    gap: 25px;
+
+    padding-bottom: 70px;
+
+}
+
+
+
+.card {
+
+    background: white;
+
+    border-radius: 22px;
+
+    overflow: hidden;
+
+    box-shadow: 0 8px 30px rgba(0,0,0,.08);
+
+    transition: .25s;
+
+}
+
+
+
+.card:hover {
+
+    transform: translateY(-7px);
+
+    box-shadow: 0 15px 40px rgba(0,0,0,.14);
+
+}
+
+
+
+.card-image {
+
+    height: 280px;
+
+    background: #f4f4f4;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    cursor: pointer;
+
+}
+
+
+
+.card-image img {
+
+    width: 85%;
+
+    height: 90%;
+
+    object-fit: contain;
+
+    transition: .25s;
+
+}
+
+
+
+.card:hover img {
+
+    transform: scale(1.05);
+
+}
+
+
+
+.card-info {
+
+    padding: 20px;
+
+}
+
+
+
+.brand {
+
+    color: #777;
+
+    font-size: 14px;
+
+}
+
+
+
+.card h2 {
+
+    margin: 7px 0;
+
+}
+
+
+
+.price {
+
+    font-size: 22px;
+
+    font-weight: bold;
+
+    margin: 15px 0;
+
+}
+
+
+
+.buttons {
+
+    display: flex;
+
+    gap: 8px;
+
+}
+
+
+
+.buttons button {
+
+    flex: 1;
+
+    border: none;
+
+    padding: 12px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+}
+
+
+
+.buy {
+
+    background: #111;
+
+    color: white;
+
+}
+
+
+
+.details {
+
+    background: #eee;
+
+}
+
+
+
+.modal {
+
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0,0,0,.65);
+
+    z-index: 200;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+}
+
+
+
+.modal-content {
+
+    background: white;
+
+    width: min(900px, 100%);
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    border-radius: 25px;
+
+    padding: 30px;
+
+    position: relative;
+
+}
+
+
+
+.close {
+
+    position: absolute;
+
+    right: 20px;
+
+    top: 15px;
+
+    border: none;
+
+    background: none;
+
+    font-size: 30px;
+
+    cursor: pointer;
+
+}
+
+
+
+.product-page {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 40px;
+
+    align-items: center;
+
+}
+
+
+
+.product-page img {
+
+    width: 100%;
+
+    height: 450px;
+
+    object-fit: contain;
+
+    background: #f5f5f5;
+
+    border-radius: 20px;
+
+}
+
+
+
+.product-page h2 {
+
+    font-size: 35px;
+
+    margin: 15px 0;
+
+}
+
+
+
+.product-page p {
+
+    color: #666;
+
+    line-height: 1.7;
+
+    margin: 15px 0;
+
+}
+
+
+
+.product-page .price {
+
+    font-size: 30px;
+
+}
+
+
+
+.cart-items {
+
+    margin-top: 25px;
+
+}
+
+
+
+.cart-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 15px 0;
+
+    border-bottom: 1px solid #ddd;
+
+}
+
+
+
+.cart-item img {
+
+    width: 80px;
+
+    height: 80px;
+
+    object-fit: contain;
+
+    background: #f5f5f5;
+
+    border-radius: 10px;
+
+}
+
+
+
+.cart-item-info {
+
+    flex: 1;
+
+}
+
+
+
+.remove {
+
+    border: none;
+
+    background: #eee;
+
+    padding: 8px 12px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+}
+
+
+
+.checkout {
+
+    margin-top: 25px;
+
+}
+
+
+
+.checkout input {
+
+    display: block;
+
+    width: 100%;
+
+    padding: 14px;
+
+    margin: 10px 0;
+
+    border: 1px solid #ddd;
+
+    border-radius: 10px;
+
+    font-size: 16px;
+
+}
+
+
+
+.total {
+
+    font-size: 25px;
+
+    font-weight: bold;
+
+    margin: 20px 0;
+
+}
+
+
+
+.success {
+
+    text-align: center;
+
+    padding: 40px;
+
+}
+
+
+
+.success h2 {
+
+    font-size: 35px;
+
+    margin-bottom: 15px;
+
+}
+
+
+
+footer {
+
+    background: #111;
+
+    color: white;
+
+    padding: 40px;
+
+    text-align: center;
+
+}
+
+
+
+@media(max-width: 700px) {
+
+
+
+    header {
+
+        padding: 0 15px;
+
+    }
+
+
+
+    nav {
+
+        display: none;
+
+    }
+
+
+
+    .hero h1 {
+
+        font-size: 38px;
+
+    }
+
+
+
+    .product-page {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+
+    .product-page img {
+
+        height: 300px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+
+<body>
+
+
+
+<header>
+
+
+
+    <div class="logo">📱 PhoneStore</div>
+
+
+
+    <nav>
+
+        <button onclick="scrollToCatalog()">Каталог</button>
+
+        <button onclick="openCart()">Корзина</button>
+
+    </nav>
+
+
+
+    <button class="cart-button" onclick="openCart()">
+
+        🛒 Корзина (<span id="cartCount">0</span>)
+
+    </button>
+
+
+
+</header>
+
+
+
+
+
+<section class="hero">
+
+
+
+    <div class="hero-content">
+
+
+
+        <h1>Твой новый смартфон</h1>
+
+
+
+        <p>
+
+            Оригинальные смартфоны Apple, Samsung,
+
+            Google и Xiaomi.
+
+        </p>
+
+
+
+        <button class="primary-button" onclick="scrollToCatalog()">
+
+            Смотреть каталог
+
+        </button>
+
+
+
+    </div>
+
+
+
+</section>
+
+
+
+
+
+<section class="controls">
+
+
+
+    <input
+
+        id="search"
+
+        type="text"
+
+        placeholder="🔎 Найти телефон..."
+
+        oninput="renderProducts()"
+
+    >
+
+
+
+    <select id="brand" onchange="renderProducts()">
+
+
+
+        <option value="all">Все бренды</option>
+
+        <option value="Apple">Apple</option>
+
+        <option value="Samsung">Samsung</option>
+
+        <option value="Google">Google</option>
+
+        <option value="Xiaomi">Xiaomi</option>
+
+
+
+    </select>
+
+
+
+</section>
+
+
+
+
+
+<section class="products" id="catalog"></section>
+
+
+
+
+
+<footer>
+
+
+
+    <h2>PhoneStore</h2>
+
+
+
+    <p style="margin-top:10px">
+
+        © 2026 PhoneStore. Все права защищены.
+
+    </p>
+
+
+
+</footer>
+
+
+
+
+
+<!-- МОДАЛЬНОЕ ОКНО ТОВАРА -->
+
+
+
+<div class="modal" id="productModal">
+
+
+
+    <div class="modal-content">
+
+
+
+        <button class="close" onclick="closeModal('productModal')">
+
+            ×
+
+        </button>
+
+
+
+        <div id="productDetails"></div>
+
+
+
+    </div>
+
+
+
+</div>
+
+
+
+
+
+<!-- КОРЗИНА -->
+
+
+
+<div class="modal" id="cartModal">
+
+
+
+    <div class="modal-content">
+
+
+
+        <button class="close" onclick="closeModal('cartModal')">
+
+            ×
+
+        </button>
+
+
+
+        <h1>🛒 Ваша корзина</h1>
+
+
+
+        <div class="cart-items" id="cartItems"></div>
+
+
+
+        <div class="total">
+
+            Итого: $<span id="cartTotal">0</span>
+
+        </div>
+
+
+
+        <button
+
+            class="primary-button"
+
+            onclick="openCheckout()"
+
+        >
+
+            Оформить заказ
+
+        </button>
+
+
+
+    </div>
+
+
+
+</div>
+
+
+
+
+
+<!-- ОФОРМЛЕНИЕ ЗАКАЗА -->
+
+
+
+<div class="modal" id="checkoutModal">
+
+
+
+    <div class="modal-content">
+
+
+
+        <button class="close" onclick="closeModal('checkoutModal')">
+
+            ×
+
+        </button>
+
+
+
+        <h1>Оформление заказа</h1>
+
+
+
+        <div class="checkout">
+
+
+
+            <input
+
+                id="customerName"
+
+                placeholder="Ваше имя"
+
+            >
+
+
+
+            <input
+
+                id="customerPhone"
+
+                placeholder="Номер телефона"
+
+            >
+
+
+
+            <input
+
+                id="customerEmail"
+
+                placeholder="Email"
+
+                type="email"
+
+            >
+
+
+
+            <input
+
+                id="customerAddress"
+
+                placeholder="Адрес доставки"
+
+            >
+
+
+
+            <button
+
+                class="primary-button"
+
+                onclick="placeOrder()"
+
+            >
+
+                Подтвердить заказ
+
+            </button>
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+</div>
+
+
+
+
+
+<script>
+
+
+
+const phones = [
+
+
+
+    {
+
+        id: 1,
+
+        name: "iPhone 17 Pro",
+
+        brand: "Apple",
+
+        price: 1199,
+
+        image: "https://images.unsplash.com/photo-1592286927505-2fd8f8f8b9f0?auto=format&fit=crop&w=800&q=80",
+
+        description:
+
+        "Флагманский смартфон Apple с мощным процессором, профессиональной камерой и премиальным корпусом."
+
+    },
+
+
+
+    {
+
+        id: 2,
+
+        name: "Galaxy S26 Ultra",
+
+        brand: "Samsung",
+
+        price: 1299,
+
+        image: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=800&q=80",
+
+        description:
+
+        "Большой AMOLED-дисплей, мощная камера и производительность флагманского уровня."
+
+    },
+
+
+
+    {
+
+        id: 3,
+
+        name: "Google Pixel 10 Pro",
+
+        brand: "Google",
+
+        price: 999,
+
+        image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=80",
+
+        description:
+
+        "Чистый Android, отличная камера и интеллектуальные функции Google."
+
+    },
+
+
+
+    {
+
+        id: 4,
+
+        name: "Xiaomi 16 Pro",
+
+        brand: "Xiaomi",
+
+        price: 799,
+
+        image: "https://images.unsplash.com/photo-1556656793-08538906a9f8?auto=format&fit=crop&w=800&q=80",
+
+        description:
+
+        "Производительный смартфон с большим экраном и быстрой зарядкой."
+
+    },
+
+
+
+    {
+
+        id: 5,
+
+        name: "iPhone 17",
+
+        brand: "Apple",
+
+        price: 899,
+
+        image: "https://images.unsplash.com/photo-1603921326210-6edd2d60ca68?auto=format&fit=crop&w=800&q=80",
+
+        description:
+
+        "Стильный и быстрый iPhone для повседневного использования."
+
+    },
+
+
+
+    {
+
+        id: 6,
+
+        name: "Galaxy S26",
+
+        brand: "Samsung",
+
+        price: 899,
+
+        image: "https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&w=800&q=80",
+
+        description:
+
+        "Компактный флагман Samsung с ярким экраном и отличной камерой."
+
+    }
+
+
+
+];
+
+
+
+
+
+let cart = [];
+
+
+
+
+
+function renderProducts() {
+
+
+
+    const searchText =
+
+        document.getElementById("search").value.toLowerCase();
+
+
+
+    const selectedBrand =
+
+        document.getElementById("brand").value;
+
+
+
+    const filtered = phones.filter(phone => {
+
+
+
+        const matchesSearch =
+
+            phone.name.toLowerCase().includes(searchText);
+
+
+
+        const matchesBrand =
+
+            selectedBrand === "all" ||
+
+            phone.brand === selectedBrand;
+
+
+
+        return matchesSearch && matchesBrand;
+
+
+
+    });
+
+
+
+
+
+    const catalog =
+
+        document.getElementById("catalog");
+
+
+
+    catalog.innerHTML = "";
+
+
+
+
+
+    filtered.forEach(phone => {
+
+
+
+        catalog.innerHTML += `
+
+
+
+            <div class="card">
+
+
+
+                <div
+
+                    class="card-image"
+
+                    onclick="openProduct(${phone.id})"
+
+                >
+
+
+
+                    <img
+
+                        src="${phone.image}"
+
+                        alt="${phone.name}"
+
+                    >
+
+
+
+                </div>
+
+
+
+                <div class="card-info">
+
+
+
+                    <span class="brand">
+
+                        ${phone.brand}
+
+                    </span>
+
+
+
+                    <h2>${phone.name}</h2>
+
+
+
+                    <div class="price">
+
+                        $${phone.price}
+
+                    </div>
+
+
+
+                    <div class="buttons">
+
+
+
+                        <button
+
+                            class="details"
+
+                            onclick="openProduct(${phone.id})"
+
+                        >
+
+                            Подробнее
+
+                        </button>
+
+
+
+                        <button
+
+                            class="buy"
+
+                            onclick="addToCart(${phone.id})"
+
+                        >
+
+                            Купить
+
+                        </button>
+
+
+
+                    </div>
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+        `;
+
+
+
+    });
+
+
+
+}
+
+
+
+
+
+function openProduct(id) {
+
+
+
+    const phone =
+
+        phones.find(p => p.id === id);
+
+
+
+    document.getElementById("productDetails").innerHTML = `
+
+
+
+        <div class="product-page">
+
+
+
+            <img
+
+                src="${phone.image}"
+
+                alt="${phone.name}"
+
+            >
+
+
+
+            <div>
+
+
+
+                <span class="brand">
+
+                    ${phone.brand}
+
+                </span>
+
+
+
+                <h2>
+
+                    ${phone.name}
+
+                </h2>
+
+
+
+                <p>
+
+                    ${phone.description}
+
+                </p>
+
+
+
+                <div class="price">
+
+                    $${phone.price}
+
+                </div>
+
+
+
+                <button
+
+                    class="primary-button"
+
+                    onclick="addToCart(${phone.id})"
+
+                >
+
+                    Купить сейчас
+
+                </button>
+
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+    `;
+
+
+
+    document.getElementById("productModal").style.display = "flex";
+
+
+
+}
+
+
+
+
+
+function addToCart(id) {
+
+
+
+    const phone =
+
+        phones.find(p => p.id === id);
+
+
+
+    cart.push(phone);
+
+
+
+    updateCart();
+
+
+
+    alert("Товар добавлен в корзину!");
+
+
+
+}
+
+
+
+
+
+function updateCart() {
+
+
+
+    document.getElementById("cartCount").textContent =
+
+        cart.length;
+
+
+
+}
+
+
+
+
+
+function openCart() {
+
+
+
+    renderCart();
+
+
+
+    document.getElementById("cartModal").style.display = "flex";
+
+
+
+}
+
+
+
+
+
+function renderCart() {
+
+
+
+    const container =
+
+        document.getElementById("cartItems");
+
+
+
+    container.innerHTML = "";
+
+
+
+    let total = 0;
+
+
+
+
+
+    if (cart.length === 0) {
+
+
+
+        container.innerHTML =
+
+            "<p>Корзина пока пустая.</p>";
+
+
+
+    }
+
+
+
+
+
+    cart.forEach((phone, index) => {
+
+
+
+        total += phone.price;
+
+
+
+        container.innerHTML += `
+
+
+
+            <div class="cart-item">
+
+
+
+                <img
+
+                    src="${phone.image}"
+
+                    alt="${phone.name}"
+
+                >
+
+
+
+                <div class="cart-item-info">
+
+
+
+                    <strong>
+
+                        ${phone.name}
+
+                    </strong>
+
+
+
+                    <div>
+
+                        $${phone.price}
+
+                    </div>
+
+
+
+                </div>
+
+
+
+                <button
+
+                    class="remove"
+
+                    onclick="removeFromCart(${index})"
+
+                >
+
+                    Удалить
+
+                </button>
+
+
+
+            </div>
+
+
+
+        `;
+
+
+
+    });
+
+
+
+
+
+    document.getElementById("cartTotal").textContent =
+
+        total;
+
+
+
+}
+
+
+
+
+
+function removeFromCart(index) {
+
+
+
+    cart.splice(index, 1);
+
+
+
+    updateCart();
+
+
+
+    renderCart();
+
+
+
+}
+
+
+
+
+
+function openCheckout() {
+
+
+
+    if (cart.length === 0) {
+
+
+
+        alert("Сначала добавьте товар в корзину.");
+
+
+
+        return;
+
+
+
+    }
+
+
+
+    closeModal("cartModal");
+
+
+
+    document.getElementById("checkoutModal").style.display =
+
+        "flex";
+
+
+
+}
+
+
+
+
+
+function placeOrder() {
+
+
+
+    const name =
+
+        document.getElementById("customerName").value;
+
+
+
+    const phone =
+
+        document.getElementById("customerPhone").value;
+
+
+
+    const email =
+
+        document.getElementById("customerEmail").value;
+
+
+
+    const address =
+
+        document.getElementById("customerAddress").value;
+
+
+
+
+
+    if (!name || !phone || !email || !address) {
+
+
+
+        alert("Заполните все поля.");
+
+
+
+        return;
+
+
+
+    }
+
+
+
+
+
+    document.getElementById("checkoutModal")
+
+        .querySelector(".modal-content")
+
+        .innerHTML = `
+
+
+
+            <div class="success">
+
+
+
+                <h2>🎉 Заказ оформлен!</h2>
+
+
+
+                <p>
+
+                    Спасибо, ${name}!
+
+                </p>
+
+
+
+                <p style="margin-top:10px">
+
+                    Мы свяжемся с вами по телефону
+
+                    ${phone}.
+
+                </p>
+
+
+
+                <button
+
+                    class="primary-button"
+
+                    style="margin-top:25px"
+
+                    onclick="location.reload()"
+
+                >
+
+                    Вернуться в магазин
+
+                </button>
+
+
+
+            </div>
+
+
+
+        `;
+
+
+
+
+
+    cart = [];
+
+
+
+    updateCart();
+
+
+
+}
+
+
+
+
+
+function closeModal(id) {
+
+
+
+    document.getElementById(id).style.display = "none";
+
+
+
+}
+
+
+
+
+
+function scrollToCatalog() {
+
+
+
+    document
+
+        .getElementById("catalog")
+
+        .scrollIntoView({
+
+            behavior: "smooth"
+
+        });
+
+
+
+}
+
+
+
+
+
+window.onclick = function(event) {
+
+
+
+    if (event.target.classList.contains("modal")) {
+
+
+
+        event.target.style.display = "none";
+
+
+
+    }
+
+
+
+};
+
+
+
+
+
+renderProducts();
+
+
+
+</script>
+
+
+
+</body>
+
+</html>
