@@ -51,7 +51,6 @@ nav button {
     cursor: pointer;
     font-size: 15px;
     padding: 6px 0;
-    type: button; /* Явное указание типа */
 }
 
 nav button:focus-visible,
@@ -74,7 +73,6 @@ nav button:focus-visible,
     cursor: pointer;
     font-weight: bold;
     white-space: nowrap;
-    type: button;
 }
 
 .hero {
@@ -114,7 +112,6 @@ nav button:focus-visible,
     font-size: 16px;
     cursor: pointer;
     font-weight: bold;
-    type: button;
 }
 
 .primary-button:disabled {
@@ -170,7 +167,6 @@ nav button:focus-visible,
     box-shadow: 0 15px 40px rgba(0,0,0,.14);
 }
 
-/* Фикс пропорций изображения для исключения CLS (сдвига контента) */
 .card-image {
     height: 280px;
     background: #f4f4f4;
@@ -181,7 +177,6 @@ nav button:focus-visible,
     border: none;
     width: 100%;
     padding: 0;
-    position: relative;
 }
 
 .card-image img {
@@ -190,9 +185,6 @@ nav button:focus-visible,
     object-fit: contain;
     transition: .25s;
     pointer-events: none;
-    position: absolute;
-    inset: 0;
-    margin: auto;
 }
 
 .card:hover img {
@@ -231,7 +223,6 @@ nav button:focus-visible,
     border-radius: 10px;
     cursor: pointer;
     font-size: 14px;
-    type: button;
 }
 
 .buy {
@@ -355,7 +346,6 @@ nav button:focus-visible,
     cursor: pointer;
     font-size: 16px;
     line-height: 1;
-    type: button;
 }
 
 .remove {
@@ -364,7 +354,6 @@ nav button:focus-visible,
     padding: 8px 12px;
     border-radius: 8px;
     cursor: pointer;
-    type: button;
 }
 
 .checkout {
@@ -492,11 +481,11 @@ footer {
     <div class="logo">📱 PhoneStore</div>
 
     <nav>
-        <button onclick="scrollToCatalog()" type="button">Каталог</button>
-        <button onclick="openCart()" type="button">Корзина</button>
+        <button onclick="scrollToCatalog()">Каталог</button>
+        <button onclick="openCart()">Корзина</button>
     </nav>
 
-    <button class="cart-button" onclick="openCart()" type="button">
+    <button class="cart-button" onclick="openCart()">
         🛒 Корзина (<span id="cartCount">0</span>)
     </button>
 
@@ -514,7 +503,7 @@ footer {
             Google и Xiaomi.
         </p>
 
-        <button class="primary-button" onclick="scrollToCatalog()" type="button">
+        <button class="primary-button" onclick="scrollToCatalog()">
             Смотреть каталог
         </button>
 
@@ -565,7 +554,7 @@ footer {
 
     <div class="modal-content">
 
-        <button class="close" onclick="closeModal('productModal')" aria-label="Закрыть" type="button">
+        <button class="close" onclick="closeModal('productModal')" aria-label="Закрыть">
             ×
         </button>
 
@@ -582,7 +571,7 @@ footer {
 
     <div class="modal-content">
 
-        <button class="close" onclick="closeModal('cartModal')" aria-label="Закрыть" type="button">
+        <button class="close" onclick="closeModal('cartModal')" aria-label="Закрыть">
             ×
         </button>
 
@@ -591,14 +580,13 @@ footer {
         <div class="cart-items" id="cartItems"></div>
 
         <div class="total">
-            Итого: <span id="cartTotal">0 ₽</span>
+            Итого: $<span id="cartTotal">0</span>
         </div>
 
         <button
             class="primary-button"
             id="checkoutBtn"
             onclick="openCheckout()"
-            type="button"
         >
             Оформить заказ
         </button>
@@ -614,7 +602,7 @@ footer {
 
     <div class="modal-content">
 
-        <button class="close" onclick="closeModal('checkoutModal')" aria-label="Закрыть" type="button">
+        <button class="close" onclick="closeModal('checkoutModal')" aria-label="Закрыть">
             ×
         </button>
 
@@ -630,7 +618,7 @@ footer {
                 </div>
 
                 <div class="field">
-                    <input id="customerPhone" placeholder="+7 (___) ___-__-__">
+                    <input id="customerPhone" placeholder="Номер телефона">
                     <div class="field-error" id="errorPhone">Введите корректный номер телефона.</div>
                 </div>
 
@@ -647,7 +635,6 @@ footer {
                 <button
                     class="primary-button"
                     onclick="placeOrder()"
-                    type="button"
                 >
                     Подтвердить заказ
                 </button>
@@ -664,165 +651,263 @@ footer {
 
 
 <script>
-// Массив товаров вынесен выше функций, которые его используют
+
 const phones = [
+
     {
         id: 1,
         name: "iPhone 17 Pro",
         brand: "Apple",
         price: 1199,
         image: "https://images.unsplash.com/photo-1592286927505-2fd8f8f8b9f0?auto=format&fit=crop&w=800&q=80",
-        description: "Флагманский смартфон Apple с мощным процессором, профессиональной камерой и премиальным корпусом."
+        description:
+        "Флагманский смартфон Apple с мощным процессором, профессиональной камерой и премиальным корпусом."
     },
+
     {
         id: 2,
         name: "Galaxy S26 Ultra",
         brand: "Samsung",
         price: 1299,
         image: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=800&q=80",
-        description: "Большой AMOLED-дисплей, мощная камера и производительность флагманского уровня."
+        description:
+        "Большой AMOLED-дисплей, мощная камера и производительность флагманского уровня."
     },
+
     {
         id: 3,
         name: "Google Pixel 10 Pro",
         brand: "Google",
         price: 999,
         image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=80",
-        description: "Чистый Android, отличная камера и интеллектуальные функции Google."
+        description:
+        "Чистый Android, отличная камера и интеллектуальные функции Google."
     },
+
     {
         id: 4,
         name: "Xiaomi 16 Pro",
         brand: "Xiaomi",
         price: 799,
         image: "https://images.unsplash.com/photo-1556656793-08538906a9f8?auto=format&fit=crop&w=800&q=80",
-        description: "Производительный смартфон с большим экраном и быстрой зарядкой."
+        description:
+        "Производительный смартфон с большим экраном и быстрой зарядкой."
     },
+
     {
         id: 5,
         name: "iPhone 17",
         brand: "Apple",
         price: 899,
         image: "https://images.unsplash.com/photo-1603921326210-6edd2d60ca68?auto=format&fit=crop&w=800&q=80",
-        description: "Стильный и быстрый iPhone для повседневного использования."
+        description:
+        "Стильный и быстрый iPhone для повседневного использования."
     },
+
     {
         id: 6,
         name: "Galaxy S26",
         brand: "Samsung",
         price: 899,
         image: "https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&w=800&q=80",
-        description: "Компактный флагман Samsung с ярким экраном и отличной камерой."
+        description:
+        "Компактный флагман Samsung с ярким экраном и отличной камерой."
     }
+
 ];
 
+// Корзина хранит записи вида { id, qty }, а не копии товаров —
+// это позволяет корректно считать количество одинаковых позиций.
 let cart = [];
+
 let toastTimer = null;
 
+
 // ---------- Утилиты ----------
+
 function escapeHtml(value) {
+
     const div = document.createElement("div");
     div.textContent = String(value ?? "");
     return div.innerHTML;
+
 }
 
 function findPhone(id) {
+
     return phones.find(p => p.id === id);
+
 }
 
 function showToast(message) {
+
     const toast = document.getElementById("toast");
     toast.textContent = message;
     toast.classList.add("show");
 
     clearTimeout(toastTimer);
+
     toastTimer = setTimeout(() => {
         toast.classList.remove("show");
     }, 2200);
+
 }
 
-// ---------- Модальные окна ----------
-function openModal(id) {
-    document.getElementById(id).classList.add('open');
-}
-
-function closeModal(id) {
-    document.getElementById(id).classList.remove('open');
-}
-
-window.onclick = function(event) {
-    if (event.target.classList.contains('modal')) {
-        event.target.classList.remove('open');
-    }
-};
-
-document.addEventListener("keydown", function(event) {
-    if (event.key === "Escape") {
-        document.querySelectorAll(".modal.open").forEach(modal => modal.classList.remove('open'));
-    }
-});
 
 // ---------- Каталог ----------
+
 function renderProducts() {
-    const searchText = document.getElementById("search").value.toLowerCase().trim();
-    const selectedBrand = document.getElementById("brand").value;
+
+    const searchText =
+        document.getElementById("search").value.toLowerCase().trim();
+
+    const selectedBrand =
+        document.getElementById("brand").value;
 
     const filtered = phones.filter(phone => {
-        const matchesSearch = phone.name.toLowerCase().includes(searchText);
-        const matchesBrand = selectedBrand === "all" || phone.brand === selectedBrand;
+
+        const matchesSearch =
+            phone.name.toLowerCase().includes(searchText);
+
+        const matchesBrand =
+            selectedBrand === "all" ||
+            phone.brand === selectedBrand;
+
         return matchesSearch && matchesBrand;
+
     });
 
-    const catalog = document.getElementById("catalog");
+
+    const catalog =
+        document.getElementById("catalog");
 
     if (filtered.length === 0) {
-        catalog.innerHTML = '<div class="empty-state">Ничего не найдено. Попробуйте изменить поиск или фильтр.</div>';
+
+        catalog.innerHTML =
+            '<div class="empty-state">Ничего не найдено. Попробуйте изменить поиск или фильтр.</div>';
+
         return;
+
     }
 
+
     catalog.innerHTML = filtered.map(phone => `
+
         <div class="card">
-            <button class="card-image" onclick="openProduct(${phone.id})" aria-label="Открыть ${escapeHtml(phone.name)}" type="button">
-                <img src="${escapeHtml(phone.image)}" alt="${escapeHtml(phone.name)}" loading="lazy">
+
+            <button
+                class="card-image"
+                onclick="openProduct(${phone.id})"
+                aria-label="Открыть ${escapeHtml(phone.name)}"
+            >
+
+                <img
+                    src="${escapeHtml(phone.image)}"
+                    alt="${escapeHtml(phone.name)}"
+                >
+
             </button>
+
             <div class="card-info">
-                <span class="brand">${escapeHtml(phone.brand)}</span>
+
+                <span class="brand">
+                    ${escapeHtml(phone.brand)}
+                </span>
+
                 <h2>${escapeHtml(phone.name)}</h2>
-                <div class="price">${phone.price} ₽</div>
-                <div class="buttons">
-                    <button class="details" onclick="openProduct(${phone.id})" type="button">Подробнее</button>
-                    <button class="buy" onclick="addToCart(${phone.id})" type="button">Купить</button>
+
+                <div class="price">
+                    $${phone.price}
                 </div>
+
+                <div class="buttons">
+
+                    <button
+                        class="details"
+                        onclick="openProduct(${phone.id})"
+                    >
+                        Подробнее
+                    </button>
+
+                    <button
+                        class="buy"
+                        onclick="addToCart(${phone.id})"
+                    >
+                        Купить
+                    </button>
+
+                </div>
+
             </div>
+
         </div>
+
     `).join("");
+
 }
 
+
 function openProduct(id) {
+
     const phone = findPhone(id);
+
     if (!phone) return;
 
     document.getElementById("productDetails").innerHTML = `
+
         <div class="product-page">
-            <img src="${escapeHtml(phone.image)}" alt="${escapeHtml(phone.name)}">
+
+            <img
+                src="${escapeHtml(phone.image)}"
+                alt="${escapeHtml(phone.name)}"
+            >
+
             <div>
-                <span class="brand">${escapeHtml(phone.brand)}</span>
-                <h2>${escapeHtml(phone.name)}</h2>
-                <p>${escapeHtml(phone.description)}</p>
-                <div class="price">${phone.price} ₽</div>
-                <button class="primary-button" onclick="addToCart(${phone.id})" type="button">Купить сейчас</button>
+
+                <span class="brand">
+                    ${escapeHtml(phone.brand)}
+                </span>
+
+                <h2>
+                    ${escapeHtml(phone.name)}
+                </h2>
+
+                <p>
+                    ${escapeHtml(phone.description)}
+                </p>
+
+                <div class="price">
+                    $${phone.price}
+                </div>
+
+                <button
+                    class="primary-button"
+                    onclick="addToCart(${phone.id})"
+                >
+                    Купить сейчас
+                </button>
+
             </div>
+
         </div>
+
     `;
+
     openModal("productModal");
+
 }
 
+
 // ---------- Корзина ----------
+
 function addToCart(id) {
+
     const phone = findPhone(id);
+
     if (!phone) return;
 
     const existing = cart.find(item => item.id === id);
+
     if (existing) {
         existing.qty += 1;
     } else {
@@ -831,97 +916,161 @@ function addToCart(id) {
 
     updateCartCount();
     showToast(`«${phone.name}» добавлен в корзину`);
+
 }
 
+
 function changeQty(id, delta) {
+
     const item = cart.find(i => i.id === id);
+
     if (!item) return;
 
     item.qty += delta;
+
     if (item.qty <= 0) {
         cart = cart.filter(i => i.id !== id);
     }
 
     updateCartCount();
     renderCart();
+
 }
+
 
 function removeFromCart(id) {
+
     cart = cart.filter(item => item.id !== id);
+
     updateCartCount();
     renderCart();
+
 }
+
 
 function updateCartCount() {
+
     const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+
     document.getElementById("cartCount").textContent = totalQty;
+
 }
+
 
 function cartTotal() {
+
     return cart.reduce((sum, item) => {
+
         const phone = findPhone(item.id);
         return sum + (phone ? phone.price * item.qty : 0);
+
     }, 0);
+
 }
+
 
 function openCart() {
+
     renderCart();
     openModal("cartModal");
+
 }
 
+
 function renderCart() {
+
     const container = document.getElementById("cartItems");
     const checkoutBtn = document.getElementById("checkoutBtn");
 
     if (cart.length === 0) {
+
         container.innerHTML = "<p>Корзина пока пустая.</p>";
         document.getElementById("cartTotal").textContent = "0";
         checkoutBtn.disabled = true;
         return;
+
     }
 
     checkoutBtn.disabled = false;
 
     container.innerHTML = cart.map(item => {
+
         const phone = findPhone(item.id);
+
         if (!phone) return "";
 
         return `
+
             <div class="cart-item">
-                <img src="${escapeHtml(phone.image)}" alt="${escapeHtml(phone.name)}">
+
+                <img
+                    src="${escapeHtml(phone.image)}"
+                    alt="${escapeHtml(phone.name)}"
+                >
+
                 <div class="cart-item-info">
-                    <strong>${escapeHtml(phone.name)}</strong>
-                    <div>${phone.price} ₽ × ${item.qty} = ${phone.price * item.qty} ₽</div>
-                    <div class="qty-controls">
-                        <button onclick="changeQty(${phone.id}, -1)" aria-label="Уменьшить количество" type="button">−</button>
-                        <span>${item.qty}</span>
-                        <button onclick="changeQty(${phone.id}, 1)" aria-label="Увеличить количество" type="button">+</button>
+
+                    <strong>
+                        ${escapeHtml(phone.name)}
+                    </strong>
+
+                    <div>
+                        $${phone.price} × ${item.qty} = $${phone.price * item.qty}
                     </div>
+
+                    <div class="qty-controls">
+                        <button onclick="changeQty(${phone.id}, -1)" aria-label="Уменьшить количество">−</button>
+                        <span>${item.qty}</span>
+                        <button onclick="changeQty(${phone.id}, 1)" aria-label="Увеличить количество">+</button>
+                    </div>
+
                 </div>
-                <button class="remove" onclick="removeFromCart(${phone.id})" type="button">Удалить</button>
+
+                <button
+                    class="remove"
+                    onclick="removeFromCart(${phone.id})"
+                >
+                    Удалить
+                </button>
+
             </div>
+
         `;
+
     }).join("");
 
-    document.getElementById("cartTotal").textContent = `${cartTotal()} ₽`;
+    document.getElementById("cartTotal").textContent = cartTotal();
+
 }
+
 
 // ---------- Оформление заказа ----------
+
 function openCheckout() {
+
     if (cart.length === 0) {
+
         showToast("Сначала добавьте товар в корзину.");
         return;
+
     }
+
     closeModal("cartModal");
     openModal("checkoutModal");
+
 }
+
 
 function setFieldError(inputId, errorId, isValid) {
+
     document.getElementById(inputId).classList.toggle("invalid", !isValid);
     document.getElementById(errorId).classList.toggle("show", !isValid);
+
 }
 
+
 function placeOrder() {
+
     const nameInput = document.getElementById("customerName");
     const phoneInput = document.getElementById("customerPhone");
     const emailInput = document.getElementById("customerEmail");
@@ -932,14 +1081,13 @@ function placeOrder() {
     const email = emailInput.value.trim();
     const address = addressInput.value.trim();
 
-    // Регулярное выражение для российских номеров (+7, 8 или без кода)
-    const phonePattern = /^(?:\+7|8)?[\s\-]?$?\d{3}$?[\s\-]?\d{3}[\s\-]?\d{2}[\s\-]?\d{2}$/;
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    const phonePattern = /^[+\d][\d\s()-]{6,}$/;
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     const isNameValid = name.length >= 2;
-    const isPhoneValid = phonePattern.test(phoneValue.replace(/\D/g, "")); // Проверяем только цифры
+    const isPhoneValid = phonePattern.test(phoneValue);
     const isEmailValid = emailPattern.test(email);
-    const isAddressValid = address.length >= 5;
+    const isAddressValid = address.length >= 3;
 
     setFieldError("customerName", "errorName", isNameValid);
     setFieldError("customerPhone", "errorPhone", isPhoneValid);
@@ -951,49 +1099,140 @@ function placeOrder() {
     }
 
     document.getElementById("checkoutBody").innerHTML = `
+
         <div class="success">
+
             <h2>🎉 Заказ оформлен!</h2>
-            <p>Спасибо, ${escapeHtml(name)}!</p>
-            <p style="margin-top:10px">Мы свяжемся с вами по телефону ${escapeHtml(phoneValue)}.</p>
-            <button class="primary-button" style="margin-top:25px" onclick="finishOrder()" type="button">
+
+            <p>
+                Спасибо, ${escapeHtml(name)}!
+            </p>
+
+            <p style="margin-top:10px">
+                Мы свяжемся с вами по телефону
+                ${escapeHtml(phoneValue)}.
+            </p>
+
+            <button
+                class="primary-button"
+                style="margin-top:25px"
+                onclick="finishOrder()"
+            >
                 Вернуться в магазин
             </button>
+
         </div>
+
     `;
 
     cart = [];
     updateCartCount();
+
 }
+
 
 function finishOrder() {
+
     closeModal("checkoutModal");
     resetCheckoutForm();
+
 }
+
 
 function resetCheckoutForm() {
+
     document.getElementById("checkoutBody").innerHTML = `
+
         <h1>Оформление заказа</h1>
+
         <div class="checkout">
-            <div class="field"><input id="customerName" placeholder="Ваше имя"><div class="field-error" id="errorName">Введите имя (минимум 2 символа).</div></div>
-            <div class="field"><input id="customerPhone" placeholder="+7 (___) ___-__-__"><div class="field-error" id="errorPhone">Введите корректный номер телефона.</div></div>
-            <div class="field"><input id="customerEmail" placeholder="Email" type="email"><div class="field-error" id="errorEmail">Введите корректный email.</div></div>
-            <div class="field"><input id="customerAddress" placeholder="Адрес доставки"><div class="field-error" id="errorAddress">Введите адрес доставки.</div></div>
-            <button class="primary-button" onclick="placeOrder()" type="button">Подтвердить заказ</button>
+
+            <div class="field">
+                <input id="customerName" placeholder="Ваше имя">
+                <div class="field-error" id="errorName">Введите имя (минимум 2 символа).</div>
+            </div>
+
+            <div class="field">
+                <input id="customerPhone" placeholder="Номер телефона">
+                <div class="field-error" id="errorPhone">Введите корректный номер телефона.</div>
+            </div>
+
+            <div class="field">
+                <input id="customerEmail" placeholder="Email" type="email">
+                <div class="field-error" id="errorEmail">Введите корректный email.</div>
+            </div>
+
+            <div class="field">
+                <input id="customerAddress" placeholder="Адрес доставки">
+                <div class="field-error" id="errorAddress">Введите адрес доставки.</div>
+            </div>
+
+            <button
+                class="primary-button"
+                onclick="placeOrder()"
+            >
+                Подтвердить заказ
+            </button>
+
         </div>
+
     `;
+
 }
 
-// ---------- Навигация ----------
+
+// ---------- Модальные окна ----------
+
+function openModal(id) {
+
+    document.getElementById(id).classList.add("open");
+
+}
+
+
+function closeModal(id) {
+
+    document.getElementById(id).classList.remove("open");
+
+}
+
+
 function scrollToCatalog() {
-    document.getElementById("catalog").scrollIntoView({
-        behavior: "smooth"
-    });
+
+    document
+        .getElementById("catalog")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
 }
 
-// Отрисовка каталога запускается только после полной загрузки DOM
-document.addEventListener('DOMContentLoaded', () => {
-    renderProducts();
+
+window.onclick = function(event) {
+
+    if (event.target.classList.contains("modal")) {
+
+        event.target.classList.remove("open");
+
+    }
+
+};
+
+document.addEventListener("keydown", function(event) {
+
+    if (event.key === "Escape") {
+
+        document.querySelectorAll(".modal.open").forEach(modal => {
+            modal.classList.remove("open");
+        });
+
+    }
+
 });
+
+
+renderProducts();
+
 </script>
 
 </body>
